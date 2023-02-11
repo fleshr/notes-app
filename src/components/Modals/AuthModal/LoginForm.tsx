@@ -51,7 +51,7 @@ const LoginForm = () => {
         <input
           value={credentials.email}
           onChange={handleInputChange}
-          className={`h-9 w-full rounded-lg border border-black/15 bg-white px-4 placeholder:text-black/50 ${
+          className={`h-9 w-full rounded-lg border border-black/15 bg-white px-4 placeholder:text-black/50 dark:border-white/20 dark:bg-gray-800 dark:placeholder:text-white/50 ${
             error && 'border-red-500'
           }`}
           type="email"
@@ -61,7 +61,7 @@ const LoginForm = () => {
         <input
           value={credentials.password}
           onChange={handleInputChange}
-          className={`mt-3 h-9 w-full rounded-lg border border-black/15 bg-white px-4 placeholder:text-black/50  ${
+          className={`mt-3 h-9 w-full rounded-lg border border-black/15 bg-white px-4 placeholder:text-black/50 dark:border-white/20 dark:bg-gray-800 dark:placeholder:text-white/50 ${
             error && 'border-red-500'
           }`}
           type="password"

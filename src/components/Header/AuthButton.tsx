@@ -6,7 +6,7 @@ const AuthButton = () => {
 
   return (
     <button
-      className="flex h-8 items-center rounded-lg border border-black/15 px-3.5 text-sm hover:border-black/20 hover:bg-gray-100"
+      className="flex h-8 items-center rounded-lg border border-black/15 px-3.5 text-sm hover:border-black/20 hover:bg-gray-100 dark:border-white/20 dark:hover:bg-gray-800"
       onClick={() => {
         setAuthModalState({
           opened: true,
