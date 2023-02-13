@@ -14,7 +14,7 @@ const ResetForm = () => {
     try {
       await sendPasswordResetEmail(auth, email);
 
-      setAuthModalState((prev) => ({ ...prev, opened: false }));
+      setAuthModalState({ opened: false, view: 'login' });
     } catch (error: any) {
       console.log(error.message);
       setError(error.message);
@@ -49,9 +49,7 @@ const ResetForm = () => {
         <button
           type="button"
           className="underline hover:no-underline"
-          onClick={() =>
-            setAuthModalState((prev) => ({ ...prev, view: 'login' }))
-          }
+          onClick={() => setAuthModalState({ opened: true, view: 'login' })}
         >
           Return to Log In
         </button>

@@ -17,6 +17,9 @@ module.exports = {
       margin: {
         7.5: '1.875rem',
       },
+      padding: {
+        7.5: '1.875rem',
+      },
       colors: {
         yellow: {
           100: '#FEF6CB',

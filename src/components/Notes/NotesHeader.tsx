@@ -24,7 +24,7 @@ const NotesHeader: React.FC<IProps> = ({ onNewNoteClick }) => {
   useEffect(() => {});
 
   return (
-    <div className="my-7.5 flex flex-wrap gap-y-3">
+    <div className="flex flex-wrap gap-y-3">
       <button
         onClick={() => onNewNoteClick()}
         className="mr-auto flex h-9 flex-shrink-0 items-center rounded-lg border border-black/15 bg-white pl-3.5 pr-2.5 hover:border-black/20 hover:bg-gray-100 dark:border-white/20 dark:bg-gray-700 dark:hover:bg-gray-800 sm:order-1"

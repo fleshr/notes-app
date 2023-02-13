@@ -35,10 +35,10 @@ const SignupForm = () => {
       });
       await updateCurrentUser(auth, auth.currentUser);
 
-      setAuthModalState((prev) => ({
-        ...prev,
+      setAuthModalState({
         opened: false,
-      }));
+        view: 'login',
+      });
     } catch (error: any) {
       console.log(error.message);
       setError(error.message);
@@ -108,9 +108,7 @@ const SignupForm = () => {
         <button
           type="button"
           className="underline hover:no-underline"
-          onClick={() =>
-            setAuthModalState((prev) => ({ ...prev, view: 'login' }))
-          }
+          onClick={() => setAuthModalState({ opened: true, view: 'login' })}
         >
           Log In
         </button>

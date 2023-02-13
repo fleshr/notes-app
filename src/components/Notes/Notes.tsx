@@ -1,12 +1,18 @@
+import authModalState from '@/atoms/authModalAtom';
 import filterState from '@/atoms/filterAtom';
 import notesState from '@/atoms/notesAtom';
 import { firestore } from '@/firebase/firebaseConfig';
 import useUser from '@/hooks/useUser';
 import { INoteWithoutID } from '@/interfaces/Note';
 import { fetchNotes } from '@/utils';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  CollectionReference,
+  serverTimestamp,
+} from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import NewNoteCard from './NoteCard/NewNote';
 import NoteCard from './NoteCard/NoteCard';
 import NotesHeader from './NotesHeader';
@@ -17,19 +23,28 @@ const Notes = () => {
   const user = useUser();
   const [notes, setNotes] = useRecoilState(notesState);
   const filter = useRecoilValue(filterState);
+  const setModalState = useSetRecoilState(authModalState);
 
   useEffect(() => {
-    if (!user?.uid) return;
-    async function fetchData() {
-      const notes = await fetchNotes(firestore, user?.uid!);
+    async function fetchData(user: string) {
+      const notes = await fetchNotes(firestore, user);
       setNotes(notes);
     }
-    fetchData();
+    if (!user) {
+      fetchData('default');
+      return;
+    }
+    fetchData(user?.uid!);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const handleNoteCreate = async (note: INoteWithoutID) => {
-    const collectionRef = collection(firestore, 'users', user?.uid!, 'notes');
+    const collectionRef = collection(
+      firestore,
+      'users',
+      user?.uid!,
+      'notes'
+    ) as CollectionReference<INoteWithoutID>;
     const docRef = await addDoc(collectionRef, {
       ...note,
       date: serverTimestamp(),
@@ -38,14 +53,18 @@ const Notes = () => {
     setNotes((prev) => [{ ...note, id: docRef.id }, ...(prev ?? [])]);
   };
 
+  const handleNewNoteButtonClick = () => {
+    if (!user) {
+      setModalState({ opened: true, view: 'login' });
+      return;
+    }
+    setNewNote((prev) => !prev);
+  };
+
   return (
     <section>
-      <NotesHeader
-        onNewNoteClick={() => {
-          setNewNote((prev) => !prev);
-        }}
-      />
-      <div className="grid grid-cols-notes gap-5">
+      <NotesHeader onNewNoteClick={handleNewNoteButtonClick} />
+      <div className="mt-7.5 grid grid-cols-notes gap-5">
         {newNote && (
           <NewNoteCard
             onCreate={handleNoteCreate}
@@ -58,7 +77,9 @@ const Notes = () => {
               if (!filter.length) return true;
               return filter.includes(note.color);
             })
-            .map((note) => <NoteCard key={note.id} note={note} />)}
+            .map((note) => (
+              <NoteCard isEditable={!!user} key={note.id} note={note} />
+            ))}
       </div>
     </section>
   );

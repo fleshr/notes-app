@@ -1,5 +1,6 @@
 import { COLORS } from '@/constants/colors';
 import { INoteWithoutID } from '@/interfaces/Note';
+import { Timestamp } from 'firebase/firestore';
 import { useState } from 'react';
 import { BiColorFill } from 'react-icons/bi';
 import { MdOutlineClose, MdOutlineDone } from 'react-icons/md';
@@ -19,12 +20,11 @@ const NewNoteCard: React.FC<IProps> = ({ onCreate, onCancel }) => {
 
   const handleNoteCreate = async () => {
     setIsLoading(true);
-    const date = Math.floor(new Date().getTime() / 1000);
     const note: INoteWithoutID = {
       color,
       text,
       title,
-      date: { seconds: date, nanoseconds: date * 1000000 },
+      date: Timestamp.fromDate(new Date()),
     };
     await onCreate(note);
     setIsLoading(false);
@@ -41,7 +41,7 @@ const NewNoteCard: React.FC<IProps> = ({ onCreate, onCancel }) => {
 
   return (
     <div
-      className={`group relative flex flex-col rounded-xl border border-black/10 px-5 pt-3.5 pb-3 text-black/90 dark:text-white/90 ${COLORS[color]}`}
+      className={`group relative flex min-h-[12rem] flex-col rounded-xl border border-black/10 px-5 pt-3.5 pb-3 text-black/90 dark:text-white/90 ${COLORS[color]}`}
     >
       {isLoading && <Loader />}
       <input

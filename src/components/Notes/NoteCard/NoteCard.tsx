@@ -12,9 +12,10 @@ import NoteView from './NoteView';
 
 interface IProps {
   note: INote;
+  isEditable: boolean;
 }
 
-const NoteCard: React.FC<IProps> = ({ note }) => {
+const NoteCard: React.FC<IProps> = ({ note, isEditable }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isEdited, setIsEdited] = useState(false);
   const [noteState, setNoteState] = useState(note);
@@ -63,7 +64,7 @@ const NoteCard: React.FC<IProps> = ({ note }) => {
       }`}
     >
       {isLoading && <Loader />}
-      {isEdited ? (
+      {isEdited && isEditable ? (
         <NoteEdit
           note={noteState}
           onEdit={handleNoteEdit}
@@ -74,6 +75,7 @@ const NoteCard: React.FC<IProps> = ({ note }) => {
       ) : (
         <NoteView
           note={noteState}
+          isEditable={isEditable}
           onEditButtonClick={() => setIsEdited(true)}
         />
       )}

@@ -31,13 +31,12 @@ const NoteEdit: React.FC<IProps> = ({
         onChange={(e) => setTitle(e.target.value)}
         type="text"
         placeholder="Note title(optional)"
-        className="bg-transparent font-medium placeholder:text-black/50"
+        className="bg-transparent font-medium placeholder:text-black/50 dark:placeholder:text-white/50"
       />
       <textarea
-        onInput={(e) => console.log(e.target)}
         value={text}
         onChange={(e) => setText(e.target.value)}
-        className="mt-2.5 mb-5 flex-grow bg-transparent text-sm placeholder:text-black/50"
+        className="mt-2.5 mb-5 flex-grow bg-transparent text-sm placeholder:text-black/50 dark:placeholder:text-white/50"
         placeholder="Note text"
       ></textarea>
       <div className="relative mt-auto flex justify-end gap-2">

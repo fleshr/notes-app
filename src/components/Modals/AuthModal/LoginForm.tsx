@@ -34,7 +34,7 @@ const LoginForm = () => {
         credentials.email,
         credentials.password
       );
-      setAuthModalState((prev) => ({ ...prev, opened: false }));
+      setAuthModalState({ opened: false, view: 'login' });
     } catch (error: any) {
       console.log(error.message);
       setError(error.message);
@@ -71,9 +71,7 @@ const LoginForm = () => {
         <button
           type="button"
           className="ml-auto mt-2 text-sm hover:underline"
-          onClick={() =>
-            setAuthModalState((prev) => ({ ...prev, view: 'reset' }))
-          }
+          onClick={() => setAuthModalState({ opened: true, view: 'reset' })}
         >
           Forget password?
         </button>
@@ -89,9 +87,7 @@ const LoginForm = () => {
         <button
           type="button"
           className="underline hover:no-underline"
-          onClick={() =>
-            setAuthModalState((prev) => ({ ...prev, view: 'signup' }))
-          }
+          onClick={() => setAuthModalState({ opened: true, view: 'signup' })}
         >
           Sing Up
         </button>
